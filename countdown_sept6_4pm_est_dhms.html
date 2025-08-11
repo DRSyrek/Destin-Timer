@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Countdown to 2025-09-06T16:00:00-04:00</title>
+<style>
+  :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{display:flex;min-height:100vh;align-items:center;justify-content:center;background:#0b1220;color:#fff;margin:0}
+  .card{background:#fff1e6;color:#0b1220;padding:28px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.5);width:92%;max-width:420px;text-align:center}
+  h1{margin:0 0 8px;font-size:20px}
+  .timer{font-size:32px;font-weight:700;letter-spacing:1px;margin:12px 0}
+  .small{font-size:13px;color:#5b5b5b;margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Countdown</h1>
+    <div id="display" class="timer">0d 00h 00m 00s</div>
+    <div class="small" id="label">Waiting...</div>
+  </div>
+
+<script>
+(function(){
+  const display = document.getElementById('display');
+  const label = document.getElementById('label');
+  const target = new Date("2025-09-06T16:00:00-04:00").getTime();
+
+  function formatTime(ms){
+    if(ms <= 0) return "0d 00h 00m 00s";
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / (3600*24));
+    const hours = Math.floor((totalSeconds % (3600*24)) / 3600).toString().padStart(2,'0');
+    const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2,'0');
+    const seconds = (totalSeconds % 60).toString().padStart(2,'0');
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  function tick(){
+    const now = Date.now();
+    const diff = target - now;
+    display.textContent = formatTime(diff);
+    if(diff <= 0){
+      label.textContent = "Time's up!";
+      clearInterval(timerId);
+    } else {
+      const t = new Date(target);
+      label.textContent = "Ends: " + t.toLocaleString();
+    }
+  }
+
+  tick();
+  const timerId = setInterval(tick, 250);
+})();
+</script>
+</body>
+</html>
